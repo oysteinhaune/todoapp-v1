@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const ejs = require('ejs')
+
+app.use("view engine", "ejs")
 
 app.listen(3000, () => {
   console.log('Listening on port 3000')
