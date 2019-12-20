@@ -1,46 +1,44 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-
+const date = require(__dirname + "/date.js")
 app.set("view engine", "ejs")
 
-app.listen(3000, () => {
+const day = date.getDate()
+
+const items = ["Buy Food", "Cook Food", "Eat Food"]
+const workItems = []
+
+app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port 3000')
 })
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+
+app.use(express.static("public"))
+
 app.get('/', (req, res) => {
-  const date = new Date();
-  const today = date.getDay();
-  let day = ""
-
-  switch (today) {
-    case 0:
-      day = "sunday"
-      break;
-    case 1:
-      day = "monday"
-      break;
-    case 2:
-      day = "tuesday"
-      break;
-    case 3:
-      day = "wednesday"
-      break;
-    case 4:
-      day = "thursday"
-      break;
-    case 5:
-      day = "friday"
-      break;
-    case 6:
-      day = "saturday"
-      break;
-    default:
-      day = "unknown"
-  }
-
   res.render("list", {
-    kindOfDay: day
+    itemsArray: items,
+    siteTitle: "Home",
+    date: day
   })
+})
 
+app.get('/work', (req, res) => {
+  res.render("list", {itemsArray: workItems, siteTitle: "Work", date: day})
+})
+
+app.post('/', (req, res) => {
+  if(req.body.button === "Home") {
+    let item = req.body.todoitem
+    items.push(item)
+    res.redirect("/")
+  } else {
+    let item = req.body.todoitem
+    workItems.push(item)
+    res.redirect("/work")
+  }
 })

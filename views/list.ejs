@@ -1,14 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>HomePage</title>
-  </head>
-  <body>
-    <% if (kindOfDay === "monday") { %>
-      <p style="color: red">Hello today is a <%= kindOfDay %></p>
-    <% } else { %>
-    <p style="color: blue">Hello today is a <%= kindOfDay %></p>
-    <% } %>
-  </body>
-</html>
+<%- include('header'); -%>
+
+<div class="box" id="heading">
+  <h1> <%= siteTitle %> </h1>
+  <h2> <i><%= date %></i> </h2>
+</div>
+
+    <div class="box">
+        <% for (var i = 0; i < itemsArray.length; i++) { %>
+          <div class="item">
+            <input type="checkbox">
+          <p><%= itemsArray[i] %></p>
+          </div>
+        <% } %>
+
+    <form class="item" action="/" method="post">
+      <input type="text" name="todoitem" placeholder="new item" autocomplete="off">
+      <button type="submit" name="button" value=<%= siteTitle %>>+</button>
+    </form>
+    </div>
+
+<%- include('footer'); -%>
